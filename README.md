@@ -7,3 +7,4 @@ _Реализация на базе **Symfony**._
 2. [Linux. Bash-скрипт.](./projects/02/README.md)
 3. [Composer.](./projects/03/README.md)
 4. [PHP web servers.](./projects/04/README.md)
+5. [Сети, протоколы. Балансировка. Безопасность.](./projects/05/README.md)
