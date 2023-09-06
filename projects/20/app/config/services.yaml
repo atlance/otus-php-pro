@@ -1,0 +1,28 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    Symfony\Component\Serializer\Encoder\JsonEncoder: ~
+
+    Redis:
+        class: \Redis
+        calls:
+            - [ connect, [ '%env(REDIS_HOST)%', '%env(int:REDIS_PORT)%' ] ]
+            - [ auth, [ '%env(REDIS_PASSWORD)%' ] ]
+            - [ setOption, [ !php/const \Redis::OPT_SERIALIZER, !php/const \Redis::SERIALIZER_JSON ] ]
+
+    Symfony\Component\Lock\Store\RedisStore:
+        arguments:
+            $redis: '@Redis'
+
+    Symfony\Component\Lock\LockFactory:
+        arguments:
+            $store: '@Symfony\Component\Lock\Store\RedisStore'
+
+    Symfony\Component\HttpKernel\Controller\ValueResolverInterface:
+        class: Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestPayloadValueResolver
+        arguments:
+            $validator: null # disable default validation & http exception with code 422
