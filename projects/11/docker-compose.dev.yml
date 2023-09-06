@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  es:
+    build:
+      context: ./docker
+      dockerfile: es/es.dockerfile
+      args:
+        es_image: ${ES_IMAGE}
+    restart: always
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${ES_PORT}:9200" ]
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl --fail ${ES_URL}/_cluster/health?wait_for_status=green&timeout=1s || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 120
+
+
+  php-cli:
+    build:
+      context: ./docker
+      dockerfile: php-cli/php-cli.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ es ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts:
+      - "${SERVER_NAME}:host-gateway"
+    volumes:
+      - ./app:${APP_DIR}:rw
+      - ./docker/es/dump.json:/dump.json:ro
+
+volumes:
+  redis:
+  database:
+
+networks:
+  backend:

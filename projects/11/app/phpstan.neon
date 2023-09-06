@@ -1,0 +1,14 @@
+parameters:
+    level: 8
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    tmpDir: var/analyze
+    fileExtensions:
+        - php
+    paths:
+        - src
+    excludePaths:
+        - vendor
+    bootstrapFiles:
+        - vendor/autoload.php
+    ignoreErrors:

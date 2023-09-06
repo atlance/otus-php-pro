@@ -1,0 +1,58 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Symfony\Component\Console\Command\Command:
+            tags:
+                - { name: 'console.command' }
+
+        App\Core\Domain\Contracts\TableNameInterface:
+            tags:
+                - { name: 'app.entities' }
+
+    App\:
+        resource: './../src'
+
+    App\Core\Infrastructure\ElasticSearch\MappingFactory:
+        public: true
+        arguments:
+            $definitions: !tagged_locator { tag: 'app.entities', default_index_method: 'tableName' }
+
+    App\Application:
+        public: true
+        arguments:
+            $commands: !tagged 'console.command'
+            $name: '%env(APP_NAME)%'
+            $version: '%env(APP_VERSION)%'
+
+    Symfony\Component\Validator\ValidatorBuilder:
+        calls: [[ 'enableAnnotationMapping' ]]
+
+    Symfony\Component\Validator\Validator\ValidatorInterface:
+        factory: ['@Symfony\Component\Validator\ValidatorBuilder', 'getValidator']
+
+    Symfony\Component\Serializer\Normalizer\ObjectNormalizer: ~
+    Symfony\Component\Serializer\Serializer:
+        arguments:
+            $normalizers: [ '@Symfony\Component\Serializer\Normalizer\ObjectNormalizer' ]
+
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        factory: [ 'Symfony\Component\HttpClient\HttpClient', 'create' ]
+
+    JoliCode\Elastically\Messenger\IndexationRequestHandler: ~
+    JoliCode\Elastically\Transport\HttpClientTransport: ~
+    JoliCode\Elastically\Client:
+        arguments:
+            $config:
+                host: '%env(ES_HOST)%'
+                port: '%env(ES_PORT)%'
+                transport: '@JoliCode\Elastically\Transport\HttpClientTransport'
+                elastically_mappings_directory: '%env(APP_DIR)%/config/es'
+                elastically_index_class_mapping:
+                    otus-shop: App\Bookstore\Domain\Book\Entity\Book
+                elastically_serializer: '@Symfony\Component\Serializer\Serializer'
+                elastically_bulk_size: 100

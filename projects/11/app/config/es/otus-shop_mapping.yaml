@@ -1,0 +1,42 @@
+settings:
+    number_of_replicas: 0
+    number_of_shards: 1
+    refresh_interval: 60s
+
+mappings:
+    dynamic: "strict"
+    properties:
+        title:
+            type: "text"
+            analyzer: "app_analyzer"
+            search_analyzer: "standard"
+
+        sku:
+            type: "keyword"
+            fields:
+                keyword:
+                    type: "keyword"
+                    ignore_above: 256
+
+        category:
+            type: "keyword"
+            fields:
+                keyword:
+                    type: "keyword"
+                    ignore_above: 256
+
+        price:
+            type: "integer"
+
+        stock:
+            type: "nested"
+            properties:
+                shop:
+                    type: "keyword"
+                    fields:
+                        keyword:
+                            type: "keyword"
+                            ignore_above: 256
+
+                stock:
+                    type: "integer"

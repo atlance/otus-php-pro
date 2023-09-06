@@ -1,0 +1,15 @@
+filter:
+    russian_stop:
+        type: "stop"
+        stopwords: "_russian_"
+    russian_stemmer:
+        type: "stemmer"
+        language: "russian"
+analyzer:
+    app_analyzer:
+        tokenizer: "standard"
+        filter:
+            - "lowercase"
+            - "trim"
+            - "russian_stemmer"
+            - "russian_stop"

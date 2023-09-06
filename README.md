@@ -13,3 +13,4 @@ _Реализация на базе **Symfony**._
 8. [Основные понятия баз данных. Кинотеатр.](./projects/08/README.md)
 9. [PostgreSQL для разработчика. Entity–attribute–value model (EAV).](./projects/09/README.md)
 10. [Как устроен PostgreSQL. Индексирование данных.](./projects/10/README.md)
+11. [Другие SQL-решения. ElasticSearch.](./projects/11/README.md)
