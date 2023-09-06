@@ -1,0 +1,28 @@
+user             nobody;
+worker_processes auto;
+master_process   off;
+pid              ${app_dir}/var/run/nginx.pid;
+error_log        ${app_dir}/var/log/nginx.balancer.error.log warn;
+
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$${q}remote_addr - $${q}remote_user [$${q}time_local] "$${q}request" '
+                      '$${q}status $${q}body_bytes_sent "$${q}http_referer" '
+                      '"$${q}http_user_agent" "$${q}http_x_forwarded_for"';
+
+    access_log        ${app_dir}/var/log/nginx.balancer.access.log  main;
+
+    sendfile          on;
+
+    keepalive_timeout 65;
+
+    include /etc/nginx/conf.d/*.conf;
+}

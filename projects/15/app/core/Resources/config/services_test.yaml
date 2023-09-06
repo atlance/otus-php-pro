@@ -1,0 +1,16 @@
+services:
+    _defaults:
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    _instanceof:
+        App\Core\Infrastructure\Http\AbstractController:
+            tags: [ 'controller.service_arguments' ]
+
+    App\Core\Application\Validation\Subscriber\ValidationProblemSubscriber:
+        tags: [ 'kernel.event_subscriber' ]
+
+    App\Core\:
+        resource: '../../*'
+        exclude:
+            - '../../Resources'
