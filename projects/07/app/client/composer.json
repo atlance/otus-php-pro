@@ -1,0 +1,24 @@
+{
+    "name": "atlance/otus-php-pro-07",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Anton Stepanov",
+            "email": "lanposts@gmail.com"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\Client\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "ext-sockets": "*"
+    }
+}

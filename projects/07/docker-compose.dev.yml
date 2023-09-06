@@ -1,0 +1,36 @@
+version: "3.9"
+
+x-php-fpm-container-config: &config
+    build:
+        context: ./docker
+        dockerfile: php-fpm.dockerfile
+        args:
+            php_fpm_image: ${PHP_FPM_IMAGE}
+            app_dir: ${APP_DIR}
+            user: ${USER}
+            uid: ${UID}
+    environment:
+        APP_DIR: ${APP_DIR}
+        PHP_INI_SCAN_DIR: :${APP_DIR}/conf.d
+    networks: [ internal ]
+    dns: [ 8.8.8.8, 8.8.4.4 ]
+
+services:
+    server:
+        <<: *config
+        volumes:
+            - ./app/socket:/var/run/socket
+            - ./app/server:${APP_DIR}
+            - ./docker/conf.d:${APP_DIR}/conf.d
+        command: php app.php
+
+    client:
+        <<: *config
+        depends_on: [ server ]
+        volumes:
+            - ./app/socket:/var/run/socket
+            - ./app/client:${APP_DIR}
+            - ./docker/conf.d:${APP_DIR}/conf.d
+
+networks:
+    internal:
