@@ -1,0 +1,38 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Symfony\Component\Console\Command\Command:
+            tags:
+                - { name: 'console.command' }
+
+        App\Infrastructure\Cli\DirectoryTree\View\Contract\PresentationTagInterface:
+            tags: [ 'app.cli.directory_tree_presenter' ]
+
+        App\Infrastructure\Cli\DirectoryTree\View\File\Content\Contract\ContentTagFetcherInterface:
+            tags: [ 'app.cli.directory_tree_content' ]
+
+
+    App\:
+        resource: './../src'
+
+    App\Infrastructure\Cli\DirectoryTree\View\File\Content\Contract\ContentFetcherInterface:
+        class: App\Infrastructure\Cli\DirectoryTree\View\File\Content\Fetcher
+        arguments:
+            $handlers: !tagged_locator { tag: 'app.cli.directory_tree_content', default_index_method: 'tag' }
+
+    App\Infrastructure\Cli\DirectoryTree\View\Contract\PresentationInterface:
+        class: App\Infrastructure\Cli\DirectoryTree\View\Presenter
+        arguments:
+            $presenters: !tagged_locator { tag: 'app.cli.directory_tree_presenter', default_index_method: 'tag' }
+
+    App\Application:
+        public: true
+        arguments:
+            $commands: !tagged 'console.command'
+            $name: '%env(APP_NAME)%'
+            $version: '%env(APP_VERSION)%'
