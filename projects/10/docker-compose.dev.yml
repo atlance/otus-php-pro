@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  database:
+    build:
+      context: ./docker
+      dockerfile: postgres/postgres.dockerfile
+      args:
+        postgres_image: ${POSTGRES_IMAGE}
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${POSTGRES_PORT}:5432" ]
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c max_connections=10000
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./docker/postgres/sql/00-extensions.sql:/docker-entrypoint-initdb.d/00-extensions.sql:ro
+      - ./docker/postgres/sql/01-tables.sql:/docker-entrypoint-initdb.d/01-tables.sql:ro
+      - ./docker/postgres/sql/02-functions.sql:/docker-entrypoint-initdb.d/02-functions.sql:ro
+      - ./docker/postgres/sql/03-views.sql:/docker-entrypoint-initdb.d/03-views.sql:ro
+      - ./docker/postgres/sql/04-seed.sql:/docker-entrypoint-initdb.d/04-seed.sql:ro
+      - ./docker/postgres/sql/05-queries.sql:/docker-entrypoint-initdb.d/05-queries.sql:ro
+
+volumes:
+  database:
+
+networks:
+  backend:
