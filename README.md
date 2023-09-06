@@ -15,3 +15,4 @@ _Реализация на базе **Symfony**._
 10. [Как устроен PostgreSQL. Индексирование данных.](./projects/10/README.md)
 11. [Другие SQL-решения. ElasticSearch.](./projects/11/README.md)
 12. [NoSQL. Redis & Memcached.](./projects/12/README.md)
+13. [PHP и базы данных. Паттерны работы с данными.](./projects/13/README.md)

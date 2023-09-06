@@ -1,0 +1,18 @@
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    _instanceof:
+        App\Core\Presentation\Controller\AbstractController:
+            tags: [ 'controller.service_arguments' ]
+
+    App\:
+        resource: './../src/'
+        exclude:
+            - './../src/Application.php'
+            - './../src/**/Resources'
+            - './../src/**/Domain/Entity'
+

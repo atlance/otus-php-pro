@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+  postgres:
+    build:
+      context: ./docker
+      dockerfile: postgres/postgres.dockerfile
+      args:
+        postgres_image: ${POSTGRES_IMAGE}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks: [ backend ]
+    ports: [ "${POSTGRES_PORT}:5432" ]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+  php-fpm:
+    build:
+      context: ./docker
+      dockerfile: php-fpm/php-fpm.dockerfile
+      args:
+        php_fpm_image: ${PHP_FPM_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ postgres ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  php-cli:
+    build:
+      context: ./docker
+      dockerfile: php-cli/php-cli.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: nginx/nginx.dockerfile
+      args:
+        nginx_image: ${NGINX_IMAGE}
+        server_name: ${SERVER_NAME}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${NGINX_HTTP_PORT}:80" ]
+    volumes:
+      - ./app:${APP_DIR}
+
+volumes:
+  database:
+
+networks:
+  backend:
