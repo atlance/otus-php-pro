@@ -1,0 +1,143 @@
+version: "3.9"
+
+services:
+  postgres:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: postgres/postgres.dockerfile
+      args:
+        postgres_image: ${POSTGRES_IMAGE}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks: [ backend ]
+    ports: [ "${POSTGRES_PORT}:5432" ]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./database:/var/lib/postgresql/data
+
+  redis:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: redis/redis.dockerfile
+      args:
+        redis_image: ${REDIS_IMAGE}
+    image: ${IMAGE}-redis:${IMAGE_TAG}
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ '${REDIS_PORT}:6379' ]
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - ./redis:/data:rw
+
+  mailer:
+    build:
+      context: ./docker/dev/mailer
+      dockerfile: mailer.dockerfile
+      args:
+        mailer_image: ${MAILER_IMAGE}
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "8025:8025" ]
+
+  php-fpm:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: php-fpm/php-fpm.dockerfile
+      args:
+        php_fpm_image: ${PHP_FPM_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    image: ${IMAGE}-php-fpm:${IMAGE_TAG}
+    env_file: [ .env ]
+    depends_on: [ postgres, redis, rabbitmq ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  php-cli:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: php-cli/php-cli.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    image: ${IMAGE}-php-cli:${IMAGE_TAG}
+    depends_on: [ postgres, redis, rabbitmq ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  consumer:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: consumer/consumer.dockerfile
+      args:
+        consumer_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    image: ${IMAGE}-consumer:${IMAGE_TAG}
+    depends_on: [ postgres, redis, rabbitmq ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    ports:
+      - 9005:9005
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  rabbitmq:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: rabbitmq/rabbitmq.dockerfile
+      args:
+        rabbitmq_image: ${RABBITMQ_IMAGE}
+    image: ${IMAGE}-rabbitmq:${IMAGE_TAG}
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_MANAGE_PORT}:15672"
+    networks: [ backend ]
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+
+  nginx:
+    build:
+      context: ./docker/${APP_ENV}
+      dockerfile: nginx/nginx.dockerfile
+      args:
+        nginx_image: ${NGINX_IMAGE}
+        server_name: ${SERVER_NAME}
+        server_port: ${SERVER_PORT}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    image: ${IMAGE}-nginx:${IMAGE_TAG}
+    depends_on: [ php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${SERVER_PORT}:${SERVER_PORT}" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+volumes:
+  database:
+  redis:
+
+networks:
+  backend:

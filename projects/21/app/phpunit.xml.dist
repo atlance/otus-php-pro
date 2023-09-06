@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         colors="true"
+         processIsolation="true"
+         stopOnFailure="true"
+         backupGlobals="false"
+         cacheResult="false"
+         bootstrap="vendor/autoload.php"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         cacheDirectory="var/cache/test/.phpunit.cache">
+  <php>
+    <ini name="display_errors" value="1"/>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="memory-limit" value="-1"/>
+    <ini name="xdebug.start_with_request" value="yes"/>
+    <ini name="xdebug.client_host" value="application.local"/>
+    <ini name="xdebug.log_level" value="3"/>
+    <ini name="xdebug.log" value="/tmp/xdebug.log"/>
+    <env name="PHP_IDE_CONFIG" value="serverName=application.local" force="true"/>
+    <env name="SYMFONY_PHPUNIT_VERSION" value="10.1" force="true"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="999999" force="true"/>
+    <!-- kernel environments -->
+    <env name="APP_ENV" value="test" force="true"/>
+    <env name="APP_DEBUG" value="1" force="true"/>
+    <env name="APP_SECRET" value="11b2c9dfc2dbecf56941327b7c84cdf9" force="true"/>
+    <env name="MESSENGER_TRANSPORT_DSN" value="in-memory://"/>
+    <env name="LOCK_DSN" value="flock"/>
+  </php>
+
+  <coverage>
+    <report>
+      <clover outputFile="var/cache/coverage/xml/clover.xml"/>
+      <html outputDirectory="var/cache/coverage/html"/>
+    </report>
+  </coverage>
+
+  <testsuites>
+    <testsuite name="application">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <exclude>
+      <directory>src/Resources</directory>
+    </exclude>
+  </source>
+
+</phpunit>

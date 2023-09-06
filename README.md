@@ -23,3 +23,4 @@ _Реализация на базе **Symfony**._
 18. [Работа с очередью. RabbitMQ.](./projects/18/README.md)
 19. [Алгоритмы. Пересечение двух связанных списков. Периодическая дробь.](./projects/19/README.md)
 20. [Проектирование API.](./projects/20/README.md)
+21. [Deploy приложений.](./projects/21/README.md)

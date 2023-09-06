@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  redis:
+    image: ${IMAGE}-redis:${IMAGE_TAG}
+    env_file: [ .env ]
+
+  rabbitmq:
+    image: ${IMAGE}-rabbitmq:${IMAGE_TAG}
+    env_file: [ .env ]
+
+  php-fpm:
+    image: ${IMAGE}-php-fpm:${IMAGE_TAG}
+    env_file: [ .env ]
+    volumes:
+      - /home/deploy/files:/app/public/files
+    deploy:
+      mode: replicated
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+
+  php-cli:
+    image: ${IMAGE}-php-cli:${IMAGE_TAG}
+    env_file: [ .env ]
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+        window: 120s
+    volumes:
+      - /home/deploy/files:/app/public/files
+
+  consumer:
+    image: ${IMAGE}-consumer:${IMAGE_TAG}
+    env_file: [ .env ]
+    volumes:
+      - /home/deploy/files:/app/public/files
+
+  nginx:
+    image: ${IMAGE}-nginx:${IMAGE_TAG}
+    env_file: [ .env ]

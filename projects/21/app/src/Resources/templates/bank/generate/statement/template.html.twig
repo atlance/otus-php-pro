@@ -1,0 +1,17 @@
+{% block title %}Банковская выписка за период {{ startAt }} - {{ endAt }}.{% endblock %}
+{% block body %}
+
+    <div style="padding: 0 50px; margin-bottom: 35px;">
+        <div style="color: #23346B; font-size: 18px;">
+            Здравствуйте!
+        </div>
+        <p>
+            Ваша <a href="{{url(
+                'App\\Infrastructure\\Http\\Controller\\V1\\Bank\\Statement\\View\\Controller',
+                {'id': id},
+                false
+            )}}">выписка</a>.
+        </p>
+    </div>
+
+{% endblock %}

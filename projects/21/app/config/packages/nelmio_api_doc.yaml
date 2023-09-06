@@ -1,0 +1,13 @@
+nelmio_api_doc:
+    areas:
+        default:
+            disable_default_routes: true
+        v1:
+            # host_patterns: ^api\.
+            path_patterns: # an array of regexps
+                - ^/api(?!/doc$)(?!/doc.json$)/v1
+            documentation:
+                openapi: 3.0.0
+                info:
+                    title: Документация к api
+                    version: v1
