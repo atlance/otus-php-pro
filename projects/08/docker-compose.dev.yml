@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  database:
+    image: ${POSTGRES_IMAGE}
+    restart: always
+    env_file: [ .env ]
+    volumes:
+      - ./database:/var/lib/postgresql/data
+      - ./sql/01-tables.sql:/docker-entrypoint-initdb.d/01-tables.sql:ro
+      - ./sql/02-functions.sql:/docker-entrypoint-initdb.d/02-functions.sql:ro
+      - ./sql/03-views.sql:/docker-entrypoint-initdb.d/03-views.sql:ro
+      - ./sql/04-datasets.sql:/docker-entrypoint-initdb.d/04-datasets.sql:ro
+    networks: [ backend ]
+    ports: [ "${POSTGRES_PORT}:5432" ]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  database:
+
+networks:
+  backend:
