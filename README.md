@@ -14,3 +14,4 @@ _Реализация на базе **Symfony**._
 9. [PostgreSQL для разработчика. Entity–attribute–value model (EAV).](./projects/09/README.md)
 10. [Как устроен PostgreSQL. Индексирование данных.](./projects/10/README.md)
 11. [Другие SQL-решения. ElasticSearch.](./projects/11/README.md)
+12. [NoSQL. Redis & Memcached.](./projects/12/README.md)

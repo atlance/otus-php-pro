@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php" columns="max" failOnRisky="true" failOnWarning="true" cacheDirectory="var/cache/.phpunit.cache">
+  <php>
+    <ini name="display_errors" value="1"/>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="memory-limit" value="-1"/>
+    <env name="KERNEL_CLASS" value="App\Application"/>
+    <env name="APP_DEBUG" value="1" />
+    <env name="SHELL_VERBOSITY" value="-1"/>
+    <env name="APP_ENV" value="test" force="true"/>
+    <env name="XDEBUG_MODE" value="debug,coverage" force="true"/>
+    <env name="APP_CACHE_PROVIDER" value="redis" force="true"/>
+  </php>
+  <coverage>
+    <include>
+      <directory suffix=".php">core/Application</directory>
+      <directory suffix=".php">core/Infrastructure</directory>
+      <directory suffix=".php">core/Presentation</directory>
+      <directory suffix=".php">src/</directory>
+    </include>
+    <exclude>
+      <file>src/Application.php</file>
+      <directory>core/Infrastructure/Cache/Adapter/Memcached</directory>
+      <directory>core/Infrastructure/Cache/SimpleCache</directory>
+    </exclude>
+    <report>
+      <clover outputFile="var/cache/coverage/redis/xml/clover.xml"/>
+      <html outputDirectory="var/cache/coverage/redis/html"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="otus">
+      <directory>tests</directory>
+      <directory>src</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
+</phpunit>

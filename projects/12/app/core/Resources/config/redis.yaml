@@ -1,0 +1,12 @@
+services:
+    Redis:
+        class: \Redis
+        public: true
+        calls:
+            - [ connect, [ '%env(REDIS_HOST)%', '%env(int:REDIS_PORT)%' ] ]
+            - [ auth, [ '%env(REDIS_PASSWORD)%' ] ]
+            - [ setOption, [ !php/const \Redis::OPT_SERIALIZER, !php/const \Redis::SERIALIZER_JSON ] ]
+
+    App\Core\Infrastructure\Cache\Adapter\Redis\Factory:
+        arguments: [ '@Redis' ]
+        tags: [ 'app.cache_adapter' ]

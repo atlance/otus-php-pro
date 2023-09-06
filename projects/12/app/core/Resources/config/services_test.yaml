@@ -1,0 +1,20 @@
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    App\Core\Application\Validation\Subscriber\ValidationProblemSubscriber:
+        tags: [ 'kernel.event_subscriber' ]
+
+    App\Core\Infrastructure\Cache\Adapter\FactoryResolver:
+        arguments:
+            $adapters: !tagged_locator { tag: 'app.cache_adapter', default_index_method: 'getAdapterKey' }
+
+    App\Core\Infrastructure\Cache\Adapter\FactoryInterface:
+        factory: [ '@App\Core\Infrastructure\Cache\Adapter\FactoryResolver', 'resolve' ]
+        arguments:
+            $adapter: '%env(APP_CACHE_PROVIDER)%'
+
+    App\Core\Infrastructure\Cache\Hydrator\Contracts\ObjectHydratorInterface:
+        factory: ['App\Core\Infrastructure\Cache\Hydrator\Factory\ObjectHydratorFactory', 'create']

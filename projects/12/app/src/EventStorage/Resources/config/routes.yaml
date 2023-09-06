@@ -1,0 +1,4 @@
+event_storage:
+    resource: ./../../Presentation/Controller
+    prefix: /event
+    type: attribute

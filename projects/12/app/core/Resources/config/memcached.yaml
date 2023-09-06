@@ -1,0 +1,9 @@
+services:
+    Memcached:
+        class: \Memcached
+        public: true
+        calls: [[ addServer, ['%env(MEMCACHED_HOST)%', 11211]]]
+
+    App\Core\Infrastructure\Cache\Adapter\Memcached\Factory:
+        arguments: [ '@Memcached' ]
+        tags: [ 'app.cache_adapter' ]
