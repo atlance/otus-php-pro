@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  php-cli:
+    build:
+      context: ./docker
+      dockerfile: php-cli/php-cli.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "host.docker.internal:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+networks:
+  backend:
