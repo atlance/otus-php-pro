@@ -8,3 +8,4 @@ _Реализация на базе **Symfony**._
 3. [Composer.](./projects/03/README.md)
 4. [PHP web servers.](./projects/04/README.md)
 5. [Сети, протоколы. Балансировка. Безопасность.](./projects/05/README.md)
+6. [Алгоритмы. Слияние двух списков.](./projects/06/README.md)
