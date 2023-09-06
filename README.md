@@ -11,4 +11,5 @@ _Реализация на базе **Symfony**._
 6. [Алгоритмы. Слияние двух списков.](./projects/06/README.md)
 7. [Командная разработка. Консольный чат на сокетах.](./projects/07/README.md)
 8. [Основные понятия баз данных. Кинотеатр.](./projects/08/README.md)
+9. [PostgreSQL для разработчика. Entity–attribute–value model (EAV).](./projects/09/README.md)
 
