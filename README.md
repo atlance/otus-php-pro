@@ -16,3 +16,4 @@ _Реализация на базе **Symfony**._
 11. [Другие SQL-решения. ElasticSearch.](./projects/11/README.md)
 12. [NoSQL. Redis & Memcached.](./projects/12/README.md)
 13. [PHP и базы данных. Паттерны работы с данными.](./projects/13/README.md)
+14. [Алгоритмы. Поиск цикла в списке. Phone keyboard.](./projects/14/README.md)
