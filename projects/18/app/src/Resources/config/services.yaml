@@ -1,0 +1,35 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            string $appDir: '%kernel.project_dir%'
+            string $fromAppEmail: '%env(MAILER_FROM_EMAIL)%'
+
+    _instanceof:
+        App\Domain\Bus\Contract\Command\HandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: messenger.bus.commands, method: handle }
+
+        App\Domain\Bus\Contract\Event\HandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: messenger.bus.events, method: handle }
+
+        App\Domain\Bus\Contract\Query\HandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: messenger.bus.queries, method: handle }
+
+    App\:
+        resource: '../../'
+        exclude: [ '../../Resources', '../../Kernel.php' ]
+
+    App\Infrastructure\Bus\CommandBus:
+        arguments: ['@messenger.bus.commands']
+
+    App\Infrastructure\Bus\EventBus:
+        arguments: ['@messenger.bus.events']
+
+    App\Infrastructure\Bus\QueryBus:
+        arguments: ['@messenger.bus.queries']

@@ -1,0 +1,112 @@
+version: "3.9"
+
+services:
+  redis:
+    build:
+      context: ./docker
+      dockerfile: redis/redis.dockerfile
+      args:
+        redis_image: ${REDIS_IMAGE}
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ '${REDIS_PORT}:6379' ]
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - ./redis:/data:rw
+
+  mailer:
+    build:
+      context: ./docker/mailer
+      dockerfile: mailer.dockerfile
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "8025:8025" ]
+
+  php-fpm:
+    build:
+      context: ./docker
+      dockerfile: php-fpm/php-fpm.dockerfile
+      args:
+        php_fpm_image: ${PHP_FPM_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  php-cli:
+    build:
+      context: ./docker
+      dockerfile: php-cli/php-cli.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  consumer:
+    build:
+      context: ./docker
+      dockerfile: consumer/consumer.dockerfile
+      args:
+        php_cli_image: ${PHP_CLI_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ rabbitmq ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${SERVER_NAME}:host-gateway" ]
+    ports:
+      - 9005:9005
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  rabbitmq:
+    build:
+      context: ./docker
+      dockerfile: rabbitmq/rabbit.dockerfile
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_MANAGE_PORT}:15672"
+    networks: [ backend ]
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+
+
+  nginx:
+    build:
+      context: ./docker
+      dockerfile: nginx/nginx.dockerfile
+      args:
+        nginx_image: ${NGINX_IMAGE}
+        server_name: ${SERVER_NAME}
+        server_port: ${SERVER_PORT}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${SERVER_PORT}:${SERVER_PORT}" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+volumes:
+  redis:
+
+networks:
+  backend:

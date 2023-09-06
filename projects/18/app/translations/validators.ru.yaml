@@ -1,0 +1,18 @@
+validation:
+  message:
+    not_null: "Не может быть пустым"
+    email: "Проверьте адрес электронной почты"
+
+  comparison:
+    eq: "Значение должно быть равным {{ compared_value }}"
+    neq: "Значение не должно быть равным {{ compared_value }}"
+    gt: "Значение должно быть больше {{ compared_value }}"
+    gte: "Значение должно быть больше или равно {{ compared_value }}"
+    lt: "Значение должно быть меньше {{ compared_value }}"
+    lte: "Значение должно быть меньше или равно {{ compared_value }}"
+
+  date:
+    min_max: 'Некорректные даты'
+    less_or_equal: "Проверьте значение, допустимо до {{ compared_value }} включительно"
+    greater_or_equal: "Проверьте значение, допустимо {{ compared_value }} и позже"
+

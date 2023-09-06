@@ -1,0 +1,121 @@
+{
+    "name": "atlance/otus-php-pro-18",
+    "license": "MIT",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Anton Stepanov",
+            "email": "lanposts@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-redis": "*",
+        "symfony/amqp-messenger": "6.2.*",
+        "symfony/console": "6.2.*",
+        "symfony/doctrine-messenger": "6.2.*",
+        "symfony/dotenv": "6.2.*",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "6.2.*",
+        "symfony/lock": "6.2.*",
+        "symfony/mailer": "6.2.*",
+        "symfony/messenger": "6.2.*",
+        "symfony/monolog-bundle": "^3.8",
+        "symfony/process": "6.2.*",
+        "symfony/property-access": "6.2.*",
+        "symfony/runtime": "6.2.*",
+        "symfony/serializer": "6.2.*",
+        "symfony/translation": "6.2.*",
+        "symfony/twig-bundle": "6.2.*",
+        "symfony/uid": "6.2.*",
+        "symfony/validator": "6.2.*",
+        "symfony/yaml": "6.2.*"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.31",
+        "overtrue/phplint": "^9.0",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "phpstan/phpstan-symfony": "^1.3",
+        "phpunit/phpunit": "^10.0",
+        "psalm/plugin-symfony": "^5.0",
+        "squizlabs/php_codesniffer": "^3.7",
+        "symfony/browser-kit": "6.2.*",
+        "symfony/css-selector": "6.2.*",
+        "symfony/phpunit-bridge": "^6.3",
+        "vimeo/psalm": "^5.12"
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "App\\": "src",
+            "App\\Contracts\\": "contracts/",
+            "App\\Exceptions\\": "exceptions/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "ergebnis/composer-normalize": true,
+            "phpstan/extension-installer": true
+        },
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "6.2.*"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "php-analyze": [
+            "@phpcs",
+            "@phplint",
+            "@phpstan",
+            "@psalm"
+        ],
+        "phpcs": "vendor/bin/phpcs",
+        "phplint": "vendor/bin/phplint -c phplint.yml.dist",
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=-1",
+        "psalm": "vendor/bin/psalm -c psalm.xml.dist --no-cache --threads=6 --memory-limit=-1",
+        "test": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist"
+    }
+}

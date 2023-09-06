@@ -1,0 +1,48 @@
+framework:
+    messenger:
+        default_bus: messenger.bus.queries
+        buses:
+            messenger.bus.commands:
+                middleware:
+                    - App\Infrastructure\Bus\Middleware\Http\ValidationMiddleware
+                    - App\Infrastructure\Bus\Middleware\LockMiddleware
+            messenger.bus.queries:
+                middleware:
+                    - App\Infrastructure\Bus\Middleware\Http\ValidationMiddleware
+            messenger.bus.events:
+                default_middleware: allow_no_handlers
+        #failure_transport: failed
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            #failed: 'doctrine://default?queue_name=failed'
+            sync: 'sync://'
+            async:
+                dsn: '%env(RABBITMQ_TRANSPORT_DSN)%'
+                options:
+                    # Messenger will create then send to this exchange
+                    exchange:
+                        name: messages
+                        type: direct
+                    # Messenger will create this queue & add binding keys
+                    # The worker will know to consume from this queue
+                    queues:
+                        messages:
+                retry_strategy:
+                    max_retries: 3
+                    delay: 1000
+                    max_delay: 30000
+
+        routing:
+            # Запрос на генерацию банковской выписки за указанные даты.
+            App\Domain\UseCase\Bank\Generate\Statement\Command: async
+            # Уведомление о сгенерированной банковской выписке за указанные даты.
+            App\Domain\UseCase\Bank\Generate\Statement\Event\Created: async
+
+# when@test:
+#    framework:
+#        messenger:
+#            transports:
+#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
+#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+#                async: 'in-memory://'
