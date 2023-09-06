@@ -5,3 +5,4 @@ _Реализация на базе **Symfony**._
 #### Список работ:
 1. [Инфраструктура. Docker.](./projects/01/README.md)
 2. [Linux. Bash-скрипт.](./projects/02/README.md)
+3. [Composer.](./projects/03/README.md)

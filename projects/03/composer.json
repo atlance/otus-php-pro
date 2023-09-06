@@ -1,0 +1,20 @@
+{
+    "name": "atlance/otus-php-pro-03",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Anton Stepanov",
+            "email": "lanposts@gmail.com"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "require": {
+        "atlance/http-doctrine-orm-filter": "@dev"
+    }
+}
