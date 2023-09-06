@@ -1,0 +1,49 @@
+{
+    "name": "atlance/otus-php-pro-04",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anton Stepanov",
+            "email": "lanposts@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-bcmath": "*",
+        "ext-ctype": "*",
+        "ext-hash": "*",
+        "ext-iconv": "*",
+        "ext-mbstring": "*",
+        "ext-memcached": "*",
+        "ext-pdo": "*",
+        "symfony/dotenv": "^6.1",
+        "symfony/http-foundation": "^6.2",
+        "symfony/validator": "^6.2"
+    },
+    "require-dev": {
+        "brianium/paratest": "^6.8",
+        "symfony/http-client": "^6.2"
+    },
+    "scripts": {
+        "tests": "vendor/bin/paratest --runner WrapperRunner"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    }
+}

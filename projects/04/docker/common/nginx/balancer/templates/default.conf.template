@@ -1,0 +1,21 @@
+upstream nginx-balancer {
+    server nginx-1;
+    server nginx-2;
+}
+
+server {
+    listen 80;
+    server_name ${server_name};
+    charset utf-8;
+
+    proxy_set_header Host $${q}host;
+    proxy_set_header X-Forwarded-For $${q}proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $${q}remote_addr;
+
+    location / {
+        if ($${q}request_method != POST) {
+            return 405;
+        }
+        proxy_pass http://nginx-balancer;
+    }
+}

@@ -1,0 +1,34 @@
+upstream php {
+    server php-fpm-1:9000;
+    server php-fpm-2:9000;
+}
+
+server {
+    listen 80 default_server;
+    server_name _;
+    charset utf-8;
+
+    index index.php;
+    root ${app_dir}/public;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location / {
+        try_files $${q}uri /index.php$${q}is_args$${q}args;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass php;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $${q}realpath_root$${q}fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $${q}realpath_root;
+        fastcgi_param PATH_INFO $${q}fastcgi_path_info;
+
+        internal;
+    }
+}
