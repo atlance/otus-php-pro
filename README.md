@@ -19,3 +19,4 @@ _Реализация на базе **Symfony**._
 14. [Алгоритмы. Поиск цикла в списке. Phone keyboard.](./projects/14/README.md)
 15. [Архитектура кода и его анализ.](./projects/15/README.md)
 16. [Паттерны проектирования.](./projects/16/README.md)
+17. [Тестирование. Phpunit.](./projects/17/README.md)

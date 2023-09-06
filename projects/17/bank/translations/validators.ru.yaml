@@ -1,0 +1,5 @@
+validation:
+  message:
+    not_null: "Не может быть пустым"
+    not_number: "Не является числом"
+    not_exists: "Не удовлетворяет условиям"

@@ -1,0 +1,55 @@
+parameters:
+    bank_uri: '%env(BANK_URI)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        Doctrine\Common\EventSubscriber:
+            tags: [ 'doctrine.event_subscriber' ]
+
+        App\Infrastructure\Gateway\Bank\UseCase\Create\Factory\Response\Contract\FactoryInterface:
+            tags: [ 'bank.create_resonse_factory' ]
+
+        App\Infrastructure\Gateway\Bank\UseCase\Pay\Factory\Response\Contract\FactoryInterface:
+            tags: [ 'bank.pay_resonse_factory' ]
+
+    App\Application\Validation\Subscriber\ValidationProblemSubscriber:
+        tags: [ 'kernel.event_subscriber' ]
+
+    App\:
+        resource: '../../'
+        exclude: [ '../../Resources', '../../Application.php' ]
+
+    bank.http_client:
+        class: Symfony\Contracts\HttpClient\HttpClientInterface
+        factory: [ 'Symfony\Component\HttpClient\HttpClient', 'create' ]
+        arguments:
+            -
+                base_uri: '%bank_uri%'
+                headers:
+                    Accept: 'application/json'
+
+#> Gateway Bank --------------------------------------------------------------------------------------------------------
+    App\Infrastructure\Gateway\Bank\UseCase\Create\Factory\Response\Contract\FactoryResolverInterface:
+        class: App\Infrastructure\Gateway\Bank\UseCase\Create\Factory\Response\Resolver
+        arguments:
+            $handlers: !tagged_locator { tag: 'bank.create_resonse_factory', default_index_method: 'statusCode' }
+
+    App\Application\UseCase\Payment\Pay\Contract\PaymentFactoryInterface:
+        class: App\Infrastructure\Gateway\Bank\UseCase\Create\Handler
+        arguments:
+            $client: '@bank.http_client'
+
+    App\Infrastructure\Gateway\Bank\UseCase\Pay\Factory\Response\Contract\FactoryResolverInterface:
+        class: App\Infrastructure\Gateway\Bank\UseCase\Pay\Factory\Response\Resolver
+        arguments:
+            $handlers: !tagged_locator { tag: 'bank.pay_resonse_factory', default_index_method: 'statusCode' }
+
+    App\Application\UseCase\Payment\Pay\Contract\PayInterface:
+        class: App\Infrastructure\Gateway\Bank\UseCase\Pay\Handler
+        arguments:
+            $client: '@bank.http_client'
+#< Gateway Bank --------------------------------------------------------------------------------------------------------

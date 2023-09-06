@@ -1,0 +1,7 @@
+validation:
+  message:
+    not_null: "Не может быть пустым"
+    not_number: "Не является числом"
+    not_string: "Не является строкой"
+    exists: "Уже существует"
+    not_exists: "Не найден"

@@ -1,0 +1,15 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+#> Gateway Bank --------------------------------------------------------------------------------------------------------
+    App\Application\UseCase\Payment\Pay\Contract\PaymentFactoryInterface:
+        class: App\Tests\Infrastructure\Gateway\Bank\UseCase\Create\Handler
+
+    App\Application\UseCase\Payment\Pay\Contract\PayInterface:
+        class: App\Tests\Infrastructure\Gateway\Bank\UseCase\Pay\Handler
+
+#< Gateway Bank --------------------------------------------------------------------------------------------------------

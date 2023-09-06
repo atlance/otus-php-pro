@@ -1,0 +1,11 @@
+doctrine_migrations:
+    migrations_paths:
+        'App\Migrations': '%kernel.project_dir%/migrations'
+    enable_profiler: '%kernel.debug%'
+    organize_migrations: BY_YEAR_AND_MONTH
+    storage:
+        table_storage:
+            table_name: 'migrations'
+            version_column_name: 'version'
+            executed_at_column_name: 'executed_at'
+    all_or_nothing: true

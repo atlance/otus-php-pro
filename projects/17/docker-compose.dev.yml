@@ -1,0 +1,120 @@
+version: "3.9"
+
+services:
+  #  application
+  app-postgres:
+    build:
+      context: ./docker/app
+      dockerfile: postgres/postgres.dockerfile
+      args:
+        postgres_image: ${POSTGRES_IMAGE}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks: [ backend ]
+    ports: [ "55432:5432" ]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./app-database:/var/lib/postgresql/data:rw
+
+  app-php-fpm:
+    build:
+      context: ./docker/app
+      dockerfile: php-fpm/php-fpm.dockerfile
+      args:
+        php_fpm_image: ${PHP_FPM_IMAGE}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ app-postgres ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    extra_hosts: [ "${APP_SERVER_NAME}:host-gateway", "${BANK_SERVER_NAME}:host-gateway" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  app-nginx:
+    build:
+      context: ./docker/app
+      dockerfile: nginx/nginx.dockerfile
+      args:
+        nginx_image: ${NGINX_IMAGE}
+        app_server_name: ${APP_SERVER_NAME}
+        app_server_port: ${APP_SERVER_PORT}
+        app_dir: ${APP_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ app-php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${APP_SERVER_PORT}:${APP_SERVER_PORT}" ]
+    volumes:
+      - ./app:${APP_DIR}:rw
+
+  # bank
+  bank-postgres:
+    build:
+      context: ./docker/bank
+      dockerfile: postgres/postgres.dockerfile
+      args:
+        postgres_image: ${POSTGRES_IMAGE}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks: [ backend ]
+    ports: [ "55433:5432" ]
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./bank-database:/var/lib/postgresql/data:rw
+
+  bank-php-fpm:
+    build:
+      context: ./docker/bank
+      dockerfile: php-fpm/php-fpm.dockerfile
+      args:
+        php_fpm_image: ${PHP_FPM_IMAGE}
+        bank_dir: ${BANK_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ bank-postgres ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    volumes:
+      - ./bank:${BANK_DIR}:rw
+
+  bank-nginx:
+    build:
+      context: ./docker/bank
+      dockerfile: nginx/nginx.dockerfile
+      args:
+        nginx_image: ${NGINX_IMAGE}
+        bank_server_name: ${BANK_SERVER_NAME}
+        bank_server_port: ${BANK_SERVER_PORT}
+        bank_dir: ${BANK_DIR}
+        user: ${USER}
+        uid: ${UID}
+    depends_on: [ bank-php-fpm ]
+    env_file: [ .env ]
+    networks: [ backend ]
+    ports: [ "${BANK_SERVER_PORT}:${BANK_SERVER_PORT}" ]
+    volumes:
+      - ./bank:${BANK_DIR}:rw
+
+volumes:
+  app-database:
+  bank-database:
+
+networks:
+  backend:

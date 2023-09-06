@@ -1,0 +1,29 @@
+server {
+    listen ${bank_server_port} default_server;
+    server_name ${bank_server_name};
+    charset utf-8;
+
+    index index.php;
+    root ${bank_dir}/public;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location / {
+        try_files $${q}uri /index.php$${q}is_args$${q}args;
+    }
+
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass unix:${bank_dir}/var/run/php-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $${q}realpath_root$${q}fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $${q}realpath_root;
+        fastcgi_param PATH_INFO $${q}fastcgi_path_info;
+
+        internal;
+    }
+}

@@ -1,0 +1,11 @@
+validation:
+  bank_card:
+    number: "Проверьте номер банковской карты"
+    cvv: "Проверьте значение CVV"
+    expiration_date_expired: "Срок действия карты, истек"
+    expiration_date_format: "Проверьте срок действия карты"
+    expiry_expired: "Проверьте срок действия карты"
+    holder: "Проверьте владелеца карты"
+  pay:
+    payment_id: "Неверный идентификатор"
+    amount: "Некорректная сумма платежа"

@@ -1,0 +1,4 @@
+payments:
+    resource: ./../../Infrastructure/Http/Controller
+    prefix: /payments
+    type: attribute

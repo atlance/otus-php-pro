@@ -1,0 +1,16 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    _instanceof:
+        Doctrine\Common\EventSubscriber:
+            tags: [ 'doctrine.event_subscriber' ]
+
+    Symfony\Component\Serializer\Encoder\JsonEncoder: ~
+
+    App\Fixtures\:
+        resource: '%kernel.project_dir%/fixtures/'

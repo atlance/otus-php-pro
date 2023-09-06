@@ -1,0 +1,4 @@
+cinema:
+    resource: ./../../Infrastructure/Http/Controller
+    prefix: /cinema
+    type: attribute
