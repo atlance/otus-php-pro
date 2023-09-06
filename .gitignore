@@ -1,5 +1,7 @@
 /*
 
+!projects
+
 !**/README.md
 
 **/.*
@@ -16,3 +18,5 @@
 !**/public/*.php
 **/docker-compose.yml
 **/composer.lock
+
+!certificate.png

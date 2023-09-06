@@ -1,0 +1,110 @@
+version: "3.9"
+
+x-php-docker-config: &php-docker-config
+    environment:
+        APP_DIR: ${APP_DIR}
+        APP_ENV: ${APP_ENV}
+        XDEBUG_MODE: ${XDEBUG_MODE}
+        PHP_IDE_CONFIG: ${PHP_IDE_CONFIG}
+        SERVER_NAME: ${SERVER_NAME}
+        MEMCACHED_HOST: ${MEMCACHED_HOST}
+        MEMCACHED_PORT: ${MEMCACHED_PORT}
+        REDIS_HOST: ${REDIS_HOST}
+        REDIS_PORT: ${REDIS_PORT}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_PORT: ${POSTGRES_PORT}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_VERSION: ${POSTGRES_VERSION}
+    depends_on: [ postgres ]
+    networks: [ backend ]
+    dns: [ 8.8.4.4, 8.8.8.8 ]
+    volumes:
+        - ./app:${APP_DIR}:rw
+
+services:
+    nginx:
+        build:
+            context: ./docker
+            dockerfile: dev/nginx/nginx.dockerfile
+            args:
+                nginx_image: ${NGINX_IMAGE}
+                app_dir: ${APP_DIR}
+                user: ${USER}
+                uid: ${UID}
+                server_name: ${SERVER_NAME}
+        environment:
+            APP_DIR: ${APP_DIR}
+        depends_on: [ php-fpm, postgres ]
+        ports: [ "${HTTP_PORT}:80" ]
+        networks: [ backend ]
+        volumes:
+            - ./docker/common/nginx/modules-enabled:/etc/nginx/modules-enabled
+            - ./app:${APP_DIR}
+
+    php-fpm:
+        build:
+            context: ./docker
+            dockerfile: dev/php-fpm/php-fpm.dockerfile
+            args:
+                php_fpm_image: ${PHP_FPM_IMAGE}
+                app_dir: ${APP_DIR}
+                user: ${USER}
+                uid: ${UID}
+        <<: *php-docker-config
+        extra_hosts:
+            - ${SERVER_NAME}:host-gateway
+
+    postgres:
+        build:
+            context: ./docker
+            dockerfile: dev/postgres/postgres.dockerfile
+            args:
+                postgres_image: ${POSTGRES_IMAGE}
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
+        volumes:
+            - ./app/var/database/data:/var/lib/postgresql/data
+        networks: [ backend ]
+        ports: [ "${POSTGRES_PORT}:5432" ]
+        healthcheck:
+            test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    memcached:
+        build:
+            context: ./docker
+            dockerfile: dev/memcached/memcached.dockerfile
+            args:
+                memcached_image: ${MEMCACHED_IMAGE}
+        networks: [ backend ]
+        ports: [ "${MEMCACHED_PORT}:11211" ]
+        command: '-m 512'
+
+    redis:
+        build:
+            context: ./docker
+            dockerfile: dev/redis/redis.dockerfile
+            args:
+                redis_image: ${REDIS_IMAGE}
+        networks: [ backend ]
+        ports: [ "${REDIS_PORT}:6379" ]
+
+    php-cli:
+        build:
+            context: ./docker
+            dockerfile: dev/php-cli/php-cli.dockerfile
+            args:
+                php_cli_image: ${PHP_CLI_IMAGE}
+                app_dir: ${APP_DIR}
+                user: ${USER}
+                uid: ${UID}
+        <<: *php-docker-config
+
+networks:
+    backend:
