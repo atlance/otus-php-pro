@@ -80,7 +80,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "paratest": "XDEBUG_MODE=coverage,debug vendor/bin/paratest -c phpunit.xml.dist --colors --runner=WrapperRunner",
+        "tests": "XDEBUG_MODE=coverage,debug vendor/bin/paratest -c phpunit.xml.dist --colors --runner=WrapperRunner",
         "php-analyze": [
             "@phpcs",
             "@phplint",

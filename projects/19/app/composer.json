@@ -1,5 +1,6 @@
 {
     "name": "atlance/otus-php-pro-19",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
     "authors": [
         {
             "name": "Anton Stepanov",
@@ -24,6 +25,6 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit -c phpunit.xml.dist"
+        "tests": "vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }

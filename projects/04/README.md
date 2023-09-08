@@ -1,5 +1,12 @@
 ## PHP WebServers.
 
+### Материалы:
+- [nginx-example.conf](https://gist.github.com/atlance/fe497b3789501923fff1a42530f23b45)
+- [Nginx cache: всё новое — хорошо забытое старое](https://habr.com/ru/post/428127/)
+- [Nginx vs Apache: Which Web Server Is the Best? (2020 Edition)](https://kinsta.com/blog/nginx-vs-apache/)
+- [Difference between PHP-CGI and PHP-FPM | BaseZap](https://www.basezap.com/difference-php-cgi-php-fpm/)
+- [Setting up nginx and PHP-FPM in Docker with Unix Sockets](https://medium.com/@shrikeh/setting-up-nginx-and-php-fpm-in-docker-with-unix-sockets-6fdfbdc19f91)
+
 ### Описание/Пошаговая инструкция выполнения задания:
 
 1. Верификация строки со скобками.  
@@ -26,13 +33,6 @@
 - Если у Вас есть балансировка, стандартными сессиями уже не обойтись. Иначе не будет работать аутентификация. Переведите хранение сессий в него.
 - Усложнённая задача для тех, кто хочет проверить свои силы:
     -  Объедините оба `memcache` в кластер. Можно использовать `repcached`.
-
-### Материалы
-- [nginx-example.conf](https://gist.github.com/atlance/fe497b3789501923fff1a42530f23b45)
-- [Nginx cache: всё новое — хорошо забытое старое](https://habr.com/ru/post/428127/)
-- [Nginx vs Apache: Which Web Server Is the Best? (2020 Edition)](https://kinsta.com/blog/nginx-vs-apache/)
-- [Difference between PHP-CGI and PHP-FPM | BaseZap](https://www.basezap.com/difference-php-cgi-php-fpm/)
-- [Setting up nginx and PHP-FPM in Docker with Unix Sockets](https://medium.com/@shrikeh/setting-up-nginx-and-php-fpm-in-docker-with-unix-sockets-6fdfbdc19f91)
 
 ### Результат:
 #### Инициализация и проверка:

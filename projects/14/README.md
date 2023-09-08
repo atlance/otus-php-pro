@@ -2,7 +2,7 @@
 - [Поиск цикла в связанном списке](https://leetcode.com/problems/linked-list-cycle/)
 - [Phone keyboard](https://leetcode.com/problems/letter-combinations-of-a-phone-number/)
 
-### Материалы
+### Материалы:
 - [LeetCode - The World's Leading Online Programming Learning Platform](https://leetcode.com/)
 - [Школа программиста](https://acmp.ru/)
 - [Timus Online Judge](https://timus.online/)
@@ -21,4 +21,4 @@
 
 #### Результат.
 - `composer install`;
-- `composer test`.
+- `composer tests`.

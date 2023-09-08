@@ -25,6 +25,6 @@
         }
     },
     "scripts": {
-        "test": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist"
+        "tests": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }

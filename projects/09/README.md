@@ -1,6 +1,6 @@
 ## PostgreSQL для разработчика.
 
-### Материалы
+### Материалы:
 - [Postgres vs Mongo / Олег Бартунов (Postgres Professional)](https://www.youtube.com/watch?v=SNzOZKvFZ68)
 
 ### Описание/Пошаговая инструкция выполнения задания:

@@ -1,5 +1,6 @@
 {
     "name": "atlance/otus-php-pro-03",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
     "type": "project",
     "authors": [
         {

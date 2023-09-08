@@ -78,7 +78,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "paratest": "XDEBUG_MODE=coverage vendor/bin/paratest -c phpunit.xml.dist --colors --runner=WrapperRunner --coverage-clover ./coverage.xml",
+        "tests": "XDEBUG_MODE=coverage vendor/bin/paratest -c phpunit.xml.dist --colors --runner=WrapperRunner --coverage-clover ./coverage.xml",
         "php-analyze": [
             "@phpcs",
             "@phplint",

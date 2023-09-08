@@ -1,6 +1,6 @@
 ## Другие SQL-решения. ElasticSearch.
 
-### Материалы
+### Материалы:
 - [Elasticsearch Guide](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 - [ElasticSearch — как мы делали свою речевую аналитику](https://habr.com/ru/company/tinkoff/blog/595277/)
 - [Elasticsearch: Text vs. Keyword](https://codecurated.com/blog/elasticsearch-text-vs-keyword/)

@@ -1,6 +1,6 @@
 ### Паттерны проектирования.
 
-### Материалы
+### Материалы:
 - [Refactoring guru](https://refactoring.guru/design-patterns)
 - [DesignPatternsPHP (Dominik Liebler and contributors)](https://designpatternsphp.readthedocs.io/_/downloads/en/latest/pdf/)
 

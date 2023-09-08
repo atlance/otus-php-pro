@@ -1,5 +1,6 @@
 {
     "name": "atlance/otus-php-pro-21",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
     "license": "MIT",
     "type": "project",
     "authors": [
@@ -123,6 +124,6 @@
         "phplint": "vendor/bin/phplint -c phplint.yml.dist",
         "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist --no-progress --memory-limit=-1",
         "psalm": "vendor/bin/psalm -c psalm.xml.dist --no-cache --threads=6 --memory-limit=-1",
-        "paratest": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist"
+        "tests": "XDEBUG_MODE=coverage vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }

@@ -1,6 +1,12 @@
-## Linux
+## Linux.
 
-### Задача
+### Материалы:
+- [Полезные трюки при работе с netcat](https://habr.com/ru/post/336596/)
+- [GitHub - ruanyf/simple-bash-scripts: A collection of simple Bash scripts](https://github.com/ruanyf/simple-bash-scripts)
+- [Bash-скрипты](https://habr.com/ru/company/ruvds/blog/325522/)
+- [Установка, настройка и примеры синхронизации Rsync - Блог компании Селектел](https://selectel.ru/blog/rsync-guide/)
+
+### Описание/Пошаговая инструкция выполнения задания:
 1. Написать консольное приложение (`bash`-скрипт), который принимает два числа и выводит их сумму в стандартный вывод.  
 Например: `./sum.sh 1.5 -7`.  
 Если предоставлены неверные аргументы (для проверки на число можно использовать регулярное выражение) вывести ошибку в консоль.
@@ -21,10 +27,4 @@
 
 Таблица хранится в текстовом файле.  
 Вывести на экран 3 наиболее популярных города среди пользователей системы, используя утилиты Линукса.  
-Подсказка: рекомендуется использовать утилиты `uniq`, `awk`, `sort`, `head`.  
-
-### Материалы
-- [Полезные трюки при работе с netcat](https://habr.com/ru/post/336596/)
-- [GitHub - ruanyf/simple-bash-scripts: A collection of simple Bash scripts](https://github.com/ruanyf/simple-bash-scripts)
-- [Bash-скрипты](https://habr.com/ru/company/ruvds/blog/325522/)
-- [Установка, настройка и примеры синхронизации Rsync - Блог компании Селектел](https://selectel.ru/blog/rsync-guide/)
+Подсказка: рекомендуется использовать утилиты `uniq`, `awk`, `sort`, `head`.

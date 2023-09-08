@@ -31,13 +31,13 @@ down:	## Down service.
 
 down-clear:	## Down service and remove volumes.
 	docker-compose down --remove-orphans -v
-	rm -rf ./app/var/* ./bank/var/*
+	rm -rf ./app/var/* ./bank/var/* ./app/vendor/* ./bank/vendor/*
 
 analyze:	## Run a static code analyzers.
 	docker-compose run --rm app-php-fpm composer php-analyze
 
 tests:	## Run phpunit tests.
-	docker-compose run --rm app-php-fpm composer paratest
+	docker-compose run --rm app-php-fpm composer tests
 
 .PHONY: help
 

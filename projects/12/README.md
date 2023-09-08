@@ -1,6 +1,6 @@
 ## NoSQL. Redis & Memcached.
 
-### Материалы
+### Материалы:
 - [Redis Best Practices, часть 1](https://habr.com/ru/post/485672/)
 - [Command reference – Redis](https://redis.io/commands)
 - [Маленькая книга о Redis](https://900913.ru/2014/03/05/little-redis-book/)
@@ -73,4 +73,4 @@
 #### Результат:  
 Написана система для `Redis` и `Memcached` провайдеров.
 1. `make init` - сообираются контейнеры, запускается сервис.
-2. `make test` - команда запускает тесты системы.
+2. `make tests` - команда запускает тесты системы.

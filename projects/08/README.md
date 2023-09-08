@@ -1,5 +1,6 @@
 ## Основные понятия баз данных.
-### Материалы
+
+### Материалы:
 - [«Истина в последней инстанции» или зачем нужен Database First Design](https://habr.com/ru/post/413597/)
 - [Базы данных. Вводный курс](http://citforum.ru/database/advanced_intro/)
 

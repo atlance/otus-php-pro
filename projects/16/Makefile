@@ -16,7 +16,7 @@ env:
 
 down-clear:	## Down service and remove volumes.
 	docker-compose down --remove-orphans -v
-	rm -rf ./app/var/run/* ./app/var/log/* ./app/var/cache/*
+	rm -rf ./app/var/run/* ./app/var/log/* ./app/var/cache/* ./app/vendor/*
 
 .PHONY: help
 

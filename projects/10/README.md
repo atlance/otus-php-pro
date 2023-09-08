@@ -1,6 +1,6 @@
 ## Как устроен PostgreSQL.
 
-### Материалы
+### Материалы:
 - [trigger.sql](https://gist.github.com/atlance/b602388c196808c05f3518263e6c13b2)
 - [partitions.sql](https://gist.github.com/atlance/50e088b987b0ce45a66b9b291950ea63)
 - [Explain PostgreSQL](https://explain.tensor.ru/)
@@ -137,12 +137,3 @@ SELECT s.id, s.min_ticket_price, s.max_ticket_price FROM sessions AS s ORDER BY 
         </tr>
     </tbody>
 </table>
-
-### Материалы
-- [Презентация.pdf](./presentation.pdf)
-- [trigger.sql](https://gist.github.com/atlance/b602388c196808c05f3518263e6c13b2)
-- [partitions.sql](https://gist.github.com/atlance/50e088b987b0ce45a66b9b291950ea63)
-- [Explain PostgreSQL](https://explain.tensor.ru/)
-- [New explain | explain.depesz.com](https://explain.depesz.com/)
-- [Index Maintenance](https://wiki.postgresql.org/wiki/Index_Maintenance)
-- [random_string.sql](https://gist.github.com/atlance/2eceb8f3ac851092ab79f8b2938fe157)

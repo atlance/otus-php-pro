@@ -27,7 +27,7 @@ down:	## Down service.
 
 down-clear:	## Down service and remove volumes.
 	docker-compose down --remove-orphans -v
-	rm -rf ./app/var/*
+	rm -rf ./app/var/* ./app/vendor/*
 
 .PHONY: help
 

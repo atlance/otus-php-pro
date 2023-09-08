@@ -1,6 +1,6 @@
 ## Очереди.
 
-### Материалы
+### Материалы:
 - [rabbitmq-tutorials](https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/php)
 - [GitHub - pgq/pgq: Generic Queue for PostgreSQL](https://github.com/pgq/pgq)
 - [RabbitMQ против Kafka: два разных подхода к обмену сообщениями](https://habr.com/ru/company/itsumma/blog/416629/)

@@ -1,2 +1,2 @@
 tests:	## Run phpunit tests.
-	docker-compose run --rm php-cli composer test
+	docker-compose run --rm php-cli composer tests

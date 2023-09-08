@@ -1,6 +1,6 @@
 ## Проектирование API.
 
-### Материалы
+### Материалы:
 - [Стажёр Вася и его истории об идемпотентности API](https://habr.com/ru/company/yandex/blog/442762/)
 - [Стажёр Вася и его опыт разработки нового API](https://habr.com/ru/company/yandex/blog/583332/)
 - [REST API error return good practices](https://stackoverflow.com/questions/942951/rest-api-error-return-good-practices)
@@ -15,7 +15,7 @@
 - 3 балла за применение очередей;
 - 2 балла за документацию (например, в `Swagger`).
 
-## Результат:
+### Результат:
 - `Docker`.
 - `Supervisor`.
 - `Clean architecture`.
@@ -25,7 +25,7 @@
 - `RabbitMQ`.
 - `OpenApi/Swagger`.
 
-### Запуск: основные команды
+#### Запуск: основные команды
 1. `make init` - сообираются контейнеры, запускается сервис.
 2. `make consume` - запуск консьюмеров в фоновом режиме.
 3. `make tests` - команда запускает тесты.

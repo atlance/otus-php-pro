@@ -1,6 +1,6 @@
 ## Архитектура кода и его анализ.
 
-### Материалы
+### Материалы:
 - [GitHub - CodelyTV/php-ddd-example: 🐘🎯 Hexagonal Architecture + DDD + CQRS in PHP using Symfony 5](https://github.com/CodelyTV/php-ddd-example)
 - [GitHub - codeliner/php-ddd-cargo-sample: PHP 7 Version of the cargo sample used in Eric Evans DDD book](https://github.com/codeliner/php-ddd-cargo-sample)
 - [GitHub - thombergs/buckpal: An example approach for implementing a Clean/Hexagonal Architecture](https://github.com/thombergs/buckpal)

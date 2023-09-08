@@ -1,6 +1,6 @@
 ## Алгоритмы.
 
-### Материалы
+### Материалы:
 - [LeetCode - The World's Leading Online Programming Learning Platform](https://leetcode.com/)
 - [Школа программиста](https://acmp.ru/)
 - [Timus Online Judge](https://timus.online/)

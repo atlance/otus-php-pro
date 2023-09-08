@@ -62,7 +62,7 @@
     "scripts": {
         "all": [
             "@analyze",
-            "@test"
+            "@tests"
         ],
         "analyze": [
             "@phpstan",
@@ -70,7 +70,7 @@
         ],
         "phpstan": "vendor/bin/phpstan analyse --no-progress",
         "psalm": "vendor/bin/psalm",
-        "test": [
+        "tests": [
             "@test-memcached-provider",
             "@test-redis-provider"
         ],

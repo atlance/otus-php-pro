@@ -59,7 +59,7 @@
     "scripts": {
         "all": [
             "@analyze",
-            "@test"
+            "@tests"
         ],
         "analyze": [
             "@phpstan",
@@ -67,6 +67,6 @@
         ],
         "phpstan": "vendor/bin/phpstan analyse --no-progress",
         "psalm": "vendor/bin/psalm",
-        "test": "vendor/bin/phpunit"
+        "tests": "vendor/bin/phpunit"
     }
 }

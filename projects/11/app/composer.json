@@ -54,10 +54,10 @@
         "sort-packages": true
     },
     "scripts": {
-        "test": "XDEBUG_MODE=coverage vendor/bin/phpunit",
+        "tests": "XDEBUG_MODE=coverage vendor/bin/phpunit",
         "phpstan": "vendor/bin/phpstan analyse --no-progress",
         "psalm": "vendor/bin/psalm",
         "analyze": ["@phpstan", "@psalm"],
-        "all": ["@analyze", "@test"]
+        "all": ["@analyze", "@tests"]
     }
 }

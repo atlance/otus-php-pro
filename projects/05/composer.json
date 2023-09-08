@@ -2,7 +2,7 @@
     "name": "atlance/otus-php-pro-05",
     "homepage": "https://github.com/atlance/email-validator",
     "license": "MIT",
-    "description": "function for email validation",
+    "description": "Course of «PHP Developer. Professional» from OTUS. Homework.",
     "type": "library",
     "keywords": ["email validator"],
     "authors": [
